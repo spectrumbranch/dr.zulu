@@ -1,0 +1,26 @@
+{
+  "name": "dr.zulu",
+  "version": "0.0.0",
+  "description": "Scaffolding utility for sequelize projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/spectrumbranch/dr.zulu.git"
+  },
+  "author": "Christopher Bebry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spectrumbranch/dr.zulu/issues"
+  },
+  "homepage": "https://github.com/spectrumbranch/dr.zulu",
+  "dependencies": {
+    "hapi": "^7.2.0",
+    "hapi-auth-cookie": "^1.3.2",
+    "handlebars": "^2.0.0",
+    "async": "^0.9.0",
+    "joi": "^4.7.0"
+  }
+}
