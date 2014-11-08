@@ -6,6 +6,7 @@
   <title>Dr.Zulu Home</title>
   
   <link href="components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/zulu.css" rel="stylesheet">
   <script src="components/jquery/dist/jquery.min.js"></script>
   <script src="components/bootstrap/dist/js/bootstrap.min.js"></script>
   
@@ -57,29 +58,47 @@
 	<div ng-controller="ZuluController">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-10">
 					<div class="panel panel-primary">
 						<div class="panel-heading">
-							<h3 class="panel-title">Model: {{currentModel.name}}</h3>
+							<h3 class="panel-title">
+								<form class="form-inline" role="form">
+									<label for="model{{currentModel.id}}-name-edit">Model:</label> <span id="model{{currentModel.id}}-name-view" ng-show="!currentModel.editMode">{{currentModel.name}}</span><input id="model{{currentModel.id}}-name-edit" type="text" ng-model="currentModel.name" ng-show="currentModel.editMode" class="form-control input-sm">
+									<a href ng-click="currentModel.toggleEditMode()"><span class="glyphicon glyphicon-pencil pull-right"></span></a>
+								</form>
+								
+							</h3>
 						</div>
 						<div class="panel-body">
-							<div ng-repeat="field in currentModel.fields">
-								<form class="form-horizontal" role="form">
+							<form class="form-horizontal" role="form">
+								<div ng-repeat="field in currentModel.fields">
+									<a href ng-click="currentModel.removeField($index)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
 									<div class="form-group">
-										<label for="{{currentModel.name}}-field{{$index}}-name" class="control-label col-md-2">Name:</label>
-										<div class="col-md-10">
-											<input id="{{currentModel.name}}-field{{$index}}-name" class="form-control" ng-model="field.name"></select>
+										<label for="model{{currentModel.id}}-field{{$index}}-name" class="control-label col-md-1">Name:</label>
+										<div class="col-md-5">
+											<input id="model{{currentModel.id}}-field{{$index}}-name" class="form-control" ng-model="field.name"></select>
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="{{currentModel.name}}-field{{$index}}-type" class="control-label col-md-2">Type:</label>
-										<div class="col-md-10">
-											<select id="{{currentModel.name}}-field{{$index}}-type" class="form-control" ng-model="field.type" ng-options="dataType.name for dataType in constants.dataTypes"></select>
+										<label for="model{{currentModel.id}}-field{{$index}}-type" class="control-label col-md-1">Type:</label>
+										<div class="col-md-5">
+											<select id="model{{currentModel.id}}-field{{$index}}-type" class="form-control" ng-model="field.type" ng-options="dataType.name for dataType in constants.dataTypes"></select>
+										</div>
+										<label for="model{{currentModel.id}}-field{{$index}}-length" class="control-label col-md-1">Length:</label>
+										<div class="col-md-5">
+											<input id="model{{currentModel.id}}-field{{$index}}-length" class="form-control" ng-model="field.length">
 										</div>
 									</div>
 									<hr ng-show="!$last" />
-								</form>
-							</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12 text-right">
+										<button type="button" class="btn btn-default" ng-click="currentModel.addNewField()">
+											<span class="glyphicon glyphicon-plus"></span> Add Field
+										</button>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>

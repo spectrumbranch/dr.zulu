@@ -1,0 +1,12 @@
+.panel-heading a span.glyphicon {
+	color: #fff;
+}
+
+.panel-heading .form-inline input{
+	font-size: 16px;
+	margin-top: -3px;
+	height: 23px;
+	width: 200px;
+	padding: 0px 10px 1px;
+	display: inline;
+}
