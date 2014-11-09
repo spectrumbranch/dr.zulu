@@ -6,8 +6,12 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
 		this.id = input.id;
 		
 		//default fields
+		//view status fields
 		this.editMode = false;
+		this.active = false;
+		//data fields
 		this.fields = [];
+		this.allowNull = false;
 		
 		//TODO remove
 		this.fields.push({ name: 'name', type: Model.constants.dataTypes[0], length: '10', allowNull: false });
@@ -26,6 +30,10 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
 	
 	Model.prototype.toggleEditMode = function() {
 		this.editMode = !this.editMode;
+	}
+	
+	Model.prototype.toggleActive = function() {
+		this.active = !this.active;
 	}
 	
 	Model.prototype.addNewField = function() {

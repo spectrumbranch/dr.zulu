@@ -6,7 +6,16 @@
 	font-size: 16px;
 	margin-top: -3px;
 	height: 23px;
-	width: 200px;
+	width: 145px;
 	padding: 0px 10px 1px;
 	display: inline;
+}
+
+.panel-body h4 {
+	line-height: 32px;
+	margin-top: 0px;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+	border-color: rgb(221, 221, 221);
 }
