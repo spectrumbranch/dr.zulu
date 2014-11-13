@@ -19,14 +19,26 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
 	
 	Model.constants = {};
 	Model.constants.dataTypes = [
-		{ name: "STRING" },
-		{ name: "INTEGER" },
-		{ name: "BIGINT" },
-		{ name: "FLOAT" },
-		{ name: "DECIMAL" },
-		{ name: "DATE" },
-		{ name: "BOOLEAN" }
+		{ name: "STRING", lengthField: true },
+		{ name: "INTEGER", lengthField: true, unsignable: true, zerofillable: true },
+		{ name: "BIGINT", lengthField: true, unsignable: true, zerofillable: true },
+		{ name: "FLOAT", lengthField: true, decimalLengthField: true, unsignable: true, zerofillable: true },
+		{ name: "DECIMAL", lengthField: true, decimalLengthField: true },
+		{ name: "DATE", isDate: true },
+		{ name: "BOOLEAN" },
+		{ name: "ENUM", isEnum: true }
 	];
+	
+	Model.constants.getDataTypeByObject = function(input) {
+		var output = {};
+		for (var i = 0; i < Model.constants.dataTypes.length; i++) {
+			if (input.name == Model.constants.dataTypes[i].name) {
+				output = Model.constants.dataTypes[i];
+				break;
+			}
+		}
+		return output;
+	};
 	
 	Model.prototype.toggleEditMode = function() {
 		this.editMode = !this.editMode;
