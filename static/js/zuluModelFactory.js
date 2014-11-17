@@ -11,7 +11,6 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
 		this.active = false;
 		//data fields
 		this.fields = [];
-		this.allowNull = false;
 		
 		//TODO remove
 		this.fields.push({ name: 'name', type: Model.constants.dataTypes[0], length: '10', allowNull: false });
@@ -42,19 +41,59 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
 	
 	Model.prototype.toggleEditMode = function() {
 		this.editMode = !this.editMode;
-	}
+	};
 	
 	Model.prototype.toggleActive = function() {
 		this.active = !this.active;
-	}
+	};
 	
 	Model.prototype.addNewField = function() {
 		this.fields.push({ name: '', type: Model.constants.dataTypes[0], length: '' });
-	}
+	};
 	
 	Model.prototype.removeField = function(index) {
 		this.fields.splice(index, 1);
-	}
+	};
+	
+	Model.prototype.getCleanRepresentation = function() {
+		var output = {};
+		
+		output.name = this.name;
+		output.fields = [];
+		
+		for (var i = 0; i < this.fields.length; i++) {
+			var field = this.fields[i];
+			var cleanField = {};
+			
+			cleanField.allowNull = field.allowNull;
+			cleanField.name = field.name;
+			cleanField.type = field.type.name;
+			if (field.type.lengthField) {
+				cleanField.length = field.length;
+			}
+			
+			if (field.type.decimalLengthField) {
+				cleanField.decimalLength = field.decimalLength;
+			}
+			
+			if (field.type.unsignable) {
+				cleanField.unsigned = !!field.unsigned;
+			}
+			
+			if (field.type.zerofillable) {
+				cleanField.zerofill = !!field.zerofill;
+			}
+			
+			cleanField.hasDefaultValue = !!field.hasDefaultValue;
+			if (cleanField.hasDefaultValue) {
+				output.defaultValue = field.defaultValue;
+			}
+			
+			output.fields.push(cleanField);
+		}
+		
+		return output;
+	};
 	
 	return Model;
 }]);

@@ -1,6 +1,12 @@
 angular.module('zuluApp', ['zuluApp.model']).controller('ZuluController', ['$scope', 'Model', function($scope, Model) {
 	//maybe rename or reorganize this variable
 	$scope.constants = Model.constants;
+	
+	$scope.constants.associationTypes = [
+		{ name: 'One to One' },
+		{ name: 'One to Many' },
+		{ name: 'Many to Many' }
+	];
 
 	$scope.currentProject = { name: 'Cartography', id: 0, editModel: false };
 	$scope.currentProject.toggleEditMode = function() {
@@ -13,4 +19,17 @@ angular.module('zuluApp', ['zuluApp.model']).controller('ZuluController', ['$sco
 	$scope.currentProject.models = [];
 	$scope.currentProject.models.push(new Model({ name: 'Map', id: 0 }));
 	$scope.currentProject.models.push(new Model({ name: 'Tile', id: 1 }));
+	
+	$scope.currentProject.associations = [];
+	
+	
+	$scope.toJson = function() {
+		var cleanProject = {};
+		cleanProject.name = $scope.currentProject.name;
+		cleanProject.models = [];
+		for (var i = 0; i < $scope.currentProject.models.length; i++) {
+			cleanProject.models.push($scope.currentProject.models[i].getCleanRepresentation());
+		}
+		console.log(cleanProject);
+	}
 }]);
