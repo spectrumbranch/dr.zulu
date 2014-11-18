@@ -3,9 +3,9 @@ angular.module('zuluApp', ['zuluApp.model']).controller('ZuluController', ['$sco
 	$scope.constants = Model.constants;
 	
 	$scope.constants.associationTypes = [
-		{ name: 'One to One' },
-		{ name: 'One to Many' },
-		{ name: 'Many to Many' }
+		{ name: 'One to One', id: 0 },
+		{ name: 'One to Many', id: 1 },
+		{ name: 'Many to Many', id: 2 }
 	];
 
 	$scope.currentProject = { name: 'Cartography', id: 0, editModel: false };

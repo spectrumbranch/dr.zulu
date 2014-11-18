@@ -15,199 +15,219 @@
   <script src="js/zuluCtrl.js"></script>
 </head>
 <body ng-controller="ZuluController">
-	<nav class="navbar navbar-default" role="navigation">
-	  <div class="container-fluid">
-		<div class="navbar-header">
-		  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		  </button>
-		  <a class="navbar-brand" href="#">Dr.Zulu</a>
-		</div>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Dr.Zulu</a>
+        </div>
 
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		  <ul class="nav navbar-nav">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
 
-			<li class="dropdown">
-			  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project <span class="caret"></span></a>
-			  <ul class="dropdown-menu" role="menu">
-				<li><a href="#">New Project</a></li>
-				<li><a href="#">Open Project</a></li>
-				<li><a href="#">Save Project</a></li>
-			  </ul>
-			</li>
-			<li class="dropdown">
-			  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Debug <span class="caret"></span></a>
-			  <ul class="dropdown-menu" role="menu">
-				<li><a href ng-click="toJson()">Serialize</a></li>
-			  </ul>
-			</li>
-		  </ul>
-		  <!--
-		  <form class="navbar-form navbar-left" role="search">
-			<div class="form-group">
-			  <input type="text" class="form-control" placeholder="Search">
-			</div>
-			<button type="submit" class="btn btn-default">Submit</button>
-		  </form>
-		  -->
-		  <ul class="nav navbar-nav navbar-right">
-			<li><a href="/logout">Logout</a></li>
-		  </ul>
-		</div>
-	  </div>
-	</nav>
-	<div>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-3">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<h3 class="panel-title">
-								<form class="form-inline" role="form">
-									<label for="project{{currentProject.id}}-name-edit">Project:</label> <span id="model{{currentProject.id}}-name-view" ng-show="!currentProject.editMode">{{currentProject.name}}</span><input id="project{{currentProject.id}}-name-edit" type="text" ng-model="currentProject.name" ng-show="currentProject.editMode" class="form-control input-sm">
-									<a href ng-click="currentProject.toggleEditMode()"><span class="glyphicon glyphicon-pencil pull-right"></span></a>
-								</form>
-							</h3>
-						</div>
-						<div class="panel-body">
-							<div>
-								<h4>
-									Models
-									<button type="button" class="btn btn-default pull-right" ng-click="currentProject.addNewModel()">
-										<span class="glyphicon glyphicon-plus"></span> Add Model
-									</button>
-								</h4>
-							</div>
-							<div class="list-group">
-								<a href class="list-group-item {{model.active ? 'active' : ''}}" ng-click="model.toggleActive()" ng-repeat="model in currentProject.models">{{model.name}}</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-9">
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							<h3 class="panel-title">
-								<form class="form-inline" role="form">
-									<span id="associations-name-view">Associations</span>
-								</form>
-							</h3>
-						</div>
-						<div class="panel-body">
-							<form class="form-horizontal" role="form">
-								<div class="form-group">
-									<div class="col-md-3">
-										<select id="associations-source" class="form-control" ng-model="currentProject.temp1" ng-options="model.name for model in currentProject.models"></select>
-									</div>
-									<div class="col-md-3">
-										<select id="associations-type" class="form-control" ng-model="currentProject.tempx" ng-options="associationType.name for associationType in constants.associationTypes"></select>
-									</div>
-									<div class="col-md-3">
-										<select id="associations-destination" class="form-control" ng-model="currentProject.temp2" ng-options="model.name for model in currentProject.models"></select>
-									</div>
-								</div>
-								0-break-0
-								
-								<div ng-repeat="association in currentProject.associations">
-									<a href ng-click="currentProject.removeAssociation($index)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
-									
-									<div class="form-group">
-										<label for="model{{model.id}}-field{{$index}}-name" class="control-label col-md-1">Name:</label>
-										<div class="col-md-5">
-											<input id="model{{model.id}}-field{{$index}}-name" class="form-control" ng-model="field.name">
-										</div>
-									</div>
-									
-									
-									<hr ng-show="!$last" />
-								</div>
-								<div class="form-group">
-									<div class="col-md-12 text-right">
-										<button type="button" class="btn btn-default" ng-click="currentProject.addNewAssociation()">
-											<span class="glyphicon glyphicon-plus"></span> Add Association
-										</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-					<div class="panel panel-primary" ng-repeat="model in currentProject.models | filter: { active: true }">
-						<div class="panel-heading">
-							<h3 class="panel-title">
-								<form class="form-inline" role="form">
-									<label for="model{{model.id}}-name-edit">Model:</label> <span id="model{{model.id}}-name-view" ng-show="!model.editMode">{{model.name}}</span><input id="model{{model.id}}-name-edit" type="text" ng-model="model.name" ng-show="model.editMode" class="form-control input-sm">
-									<a href ng-click="model.toggleEditMode()"><span class="glyphicon glyphicon-pencil pull-right"></span></a>
-								</form>
-							</h3>
-						</div>
-						<div class="panel-body">
-							<form class="form-horizontal" role="form">
-								<div ng-repeat="field in model.fields">
-									<a href ng-click="model.removeField($index)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
-									<div class="form-group">
-										<label for="model{{model.id}}-field{{$index}}-name" class="control-label col-md-1">Name:</label>
-										<div class="col-md-5">
-											<input id="model{{model.id}}-field{{$index}}-name" class="form-control" ng-model="field.name">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="model{{model.id}}-field{{$index}}-type" class="control-label col-md-1">Type:</label>
-										<div class="col-md-5">
-											<select id="model{{model.id}}-field{{$index}}-type" class="form-control" ng-model="field.type" ng-options="dataType.name for dataType in constants.dataTypes"></select>
-										</div>
-										<div ng-if="constants.getDataTypeByObject(field.type).lengthField">
-											<label for="model{{model.id}}-field{{$index}}-length" class="control-label col-md-1">Length:</label>
-											<div class="col-md-1">
-												<input id="model{{model.id}}-field{{$index}}-length" class="form-control" ng-model="field.length">
-											</div>
-										</div>
-										<div ng-if="constants.getDataTypeByObject(field.type).decimalLengthField">
-											<label for="model{{model.id}}-field{{$index}}-decimalLength" class="control-label col-md-2">Dec. Length:</label>
-											<div class="col-md-1">
-												<input id="model{{model.id}}-field{{$index}}-decimalLength" class="form-control" ng-model="field.decimalLength">
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-3" ng-if="constants.getDataTypeByObject(field.type).unsignable">
-											<label class="checkbox-inline">
-											  <input type="checkbox" id="model{{model.id}}-field{{$index}}-unsigned" value="option1" ng-model="field.unsigned"> Unsigned
-											</label>
-										</div>
-										<div class="col-md-3" ng-if="constants.getDataTypeByObject(field.type).zerofillable">
-											<label class="checkbox-inline">
-											  <input type="checkbox" id="model{{model.id}}-field{{$index}}-zerofill" value="option2" ng-model="field.zerofill"> Zerofill
-											</label>
-										</div>
-										<div class="col-md-3">
-											<label class="checkbox-inline">
-											  <input type="checkbox" id="model{{model.id}}-field{{$index}}-hasDefaultValue" ng-model="field.hasDefaultValue"> Has Default Value
-											</label>
-										</div>
-										<div class="col-md-3" ng-if="field.hasDefaultValue">
-											<label for="model{{model.id}}-field{{$index}}-defaultValue" class="sr-only">Default Value:</label>
-											  <input id="model{{model.id}}-field{{$index}}-defaultValue" class="form-control" placeholder="default value" ng-model="field.defaultValue">
-											</label>
-										</div>
-									</div>
-									<hr ng-show="!$last" />
-								</div>
-								<div class="form-group">
-									<div class="col-md-12 text-right">
-										<button type="button" class="btn btn-default" ng-click="model.addNewField()">
-											<span class="glyphicon glyphicon-plus"></span> Add Field
-										</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">New Project</a></li>
+                <li><a href="#">Open Project</a></li>
+                <li><a href="#">Save Project</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Debug <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href ng-click="toJson()">Serialize</a></li>
+              </ul>
+            </li>
+          </ul>
+          <!--
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          -->
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <form class="form-inline" role="form">
+                                    <label for="project{{currentProject.id}}-name-edit">Project:</label> <span id="model{{currentProject.id}}-name-view" ng-show="!currentProject.editMode">{{currentProject.name}}</span><input id="project{{currentProject.id}}-name-edit" type="text" ng-model="currentProject.name" ng-show="currentProject.editMode" class="form-control input-sm">
+                                    <a href ng-click="currentProject.toggleEditMode()"><span class="glyphicon glyphicon-pencil pull-right"></span></a>
+                                </form>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <h4>
+                                    Models
+                                    <button type="button" class="btn btn-default pull-right" ng-click="currentProject.addNewModel()">
+                                        <span class="glyphicon glyphicon-plus"></span> Add Model
+                                    </button>
+                                </h4>
+                            </div>
+                            <div class="list-group">
+                                <a href class="list-group-item {{model.active ? 'active' : ''}}" ng-click="model.toggleActive()" ng-repeat="model in currentProject.models">{{model.name}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <form class="form-inline" role="form">
+                                    <span id="associations-name-view">Associations</span>
+                                </form>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <select id="associations-source" class="form-control" ng-model="currentProject.temp1" ng-options="model.name for model in currentProject.models"></select>
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" id="association-source-alias" value="source-alias" ng-model="currentProject.hasTempSourceAlias"> Alias
+                                                </label>
+                                            </div>
+                                            <div class="col-md-9" ng-if="currentProject.hasTempSourceAlias">
+                                                <input class="form-control" ng-model="currentProject.tempSourceAlias">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="associations-type" class="form-control" ng-model="currentProject.tempx" ng-options="associationType.name for associationType in constants.associationTypes"></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="associations-destination" class="form-control" ng-model="currentProject.temp2" ng-options="model.name for model in currentProject.models"></select>
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" id="association-destination-alias" value="destination-alias" ng-model="currentProject.hasTempDestinationAlias"> Alias
+                                                </label>
+                                            </div>
+                                            <div class="col-md-9" ng-if="currentProject.hasTempDestinationAlias">
+                                                <input class="form-control" ng-model="currentProject.tempDestinationAlias">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                0-break-0
+                                
+                                <div ng-repeat="association in currentProject.associations">
+                                    <a href ng-click="currentProject.removeAssociation($index)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                                    
+                                    <div class="form-group">
+                                        <label for="model{{model.id}}-field{{$index}}-name" class="control-label col-md-1">Name:</label>
+                                        <div class="col-md-5">
+                                            <input id="model{{model.id}}-field{{$index}}-name" class="form-control" ng-model="field.name">
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <hr ng-show="!$last" />
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12 text-right">
+                                        <button type="button" class="btn btn-default" ng-click="currentProject.addNewAssociation()">
+                                            <span class="glyphicon glyphicon-plus"></span> Add Association
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary" ng-repeat="model in currentProject.models | filter: { active: true }">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <form class="form-inline" role="form">
+                                    <label for="model{{model.id}}-name-edit">Model:</label> <span id="model{{model.id}}-name-view" ng-show="!model.editMode">{{model.name}}</span><input id="model{{model.id}}-name-edit" type="text" ng-model="model.name" ng-show="model.editMode" class="form-control input-sm">
+                                    <a href ng-click="model.toggleEditMode()"><span class="glyphicon glyphicon-pencil pull-right"></span></a>
+                                </form>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form">
+                                <div ng-repeat="field in model.fields">
+                                    <a href ng-click="model.removeField($index)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                                    <div class="form-group">
+                                        <label for="model{{model.id}}-field{{$index}}-name" class="control-label col-md-1">Name:</label>
+                                        <div class="col-md-5">
+                                            <input id="model{{model.id}}-field{{$index}}-name" class="form-control" ng-model="field.name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="model{{model.id}}-field{{$index}}-type" class="control-label col-md-1">Type:</label>
+                                        <div class="col-md-5">
+                                            <select id="model{{model.id}}-field{{$index}}-type" class="form-control" ng-model="field.type" ng-options="dataType.name for dataType in constants.dataTypes"></select>
+                                        </div>
+                                        <div ng-if="constants.getDataTypeByObject(field.type).lengthField">
+                                            <label for="model{{model.id}}-field{{$index}}-length" class="control-label col-md-1">Length:</label>
+                                            <div class="col-md-1">
+                                                <input id="model{{model.id}}-field{{$index}}-length" class="form-control" ng-model="field.length">
+                                            </div>
+                                        </div>
+                                        <div ng-if="constants.getDataTypeByObject(field.type).decimalLengthField">
+                                            <label for="model{{model.id}}-field{{$index}}-decimalLength" class="control-label col-md-2">Dec. Length:</label>
+                                            <div class="col-md-1">
+                                                <input id="model{{model.id}}-field{{$index}}-decimalLength" class="form-control" ng-model="field.decimalLength">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-3" ng-if="constants.getDataTypeByObject(field.type).unsignable">
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" id="model{{model.id}}-field{{$index}}-unsigned" value="option1" ng-model="field.unsigned"> Unsigned
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3" ng-if="constants.getDataTypeByObject(field.type).zerofillable">
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" id="model{{model.id}}-field{{$index}}-zerofill" value="option2" ng-model="field.zerofill"> Zerofill
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" id="model{{model.id}}-field{{$index}}-hasDefaultValue" ng-model="field.hasDefaultValue"> Has Default Value
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3" ng-if="field.hasDefaultValue">
+                                            <label for="model{{model.id}}-field{{$index}}-defaultValue" class="sr-only">Default Value:</label>
+                                              <input id="model{{model.id}}-field{{$index}}-defaultValue" class="form-control" placeholder="default value" ng-model="field.defaultValue">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <hr ng-show="!$last" />
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12 text-right">
+                                        <button type="button" class="btn btn-default" ng-click="model.addNewField()">
+                                            <span class="glyphicon glyphicon-plus"></span> Add Field
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
