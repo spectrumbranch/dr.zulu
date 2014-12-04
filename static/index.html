@@ -75,6 +75,14 @@
                         <div class="panel-body">
                             <div>
                                 <h4>
+                                    Associations
+                                </h4>
+                            </div>
+                            <div class="list-group">
+                                <a href class="list-group-item {{currentProject.showAssociations ? 'active' : ''}}" ng-click="currentProject.toggleShowAssociations()">Show</a>
+                            </div>
+                            <div>
+                                <h4>
                                     Models
                                     <button type="button" class="btn btn-default pull-right" ng-click="currentProject.addNewModel()">
                                         <span class="glyphicon glyphicon-plus"></span> Add Model
@@ -88,7 +96,7 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <div class="panel panel-info">
+                    <div ng-show="currentProject.showAssociations" class="panel panel-info">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 <form class="form-inline" role="form">
@@ -98,50 +106,57 @@
                         </div>
                         <div class="panel-body">
                             <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <select id="associations-source" class="form-control" ng-model="currentProject.temp1" ng-options="model.name for model in currentProject.models"></select>
-                                        <div class="form-group">
-                                            <div class="col-md-3">
-                                                <label class="checkbox-inline">
-                                                    <input type="checkbox" id="association-source-alias" value="source-alias" ng-model="currentProject.hasTempSourceAlias"> Alias
-                                                </label>
-                                            </div>
-                                            <div class="col-md-9" ng-if="currentProject.hasTempSourceAlias">
-                                                <input class="form-control" ng-model="currentProject.tempSourceAlias">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select id="associations-type" class="form-control" ng-model="currentProject.tempx" ng-options="associationType.name for associationType in constants.associationTypes"></select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select id="associations-destination" class="form-control" ng-model="currentProject.temp2" ng-options="model.name for model in currentProject.models"></select>
-                                        <div class="form-group">
-                                            <div class="col-md-3">
-                                                <label class="checkbox-inline">
-                                                    <input type="checkbox" id="association-destination-alias" value="destination-alias" ng-model="currentProject.hasTempDestinationAlias"> Alias
-                                                </label>
-                                            </div>
-                                            <div class="col-md-9" ng-if="currentProject.hasTempDestinationAlias">
-                                                <input class="form-control" ng-model="currentProject.tempDestinationAlias">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                0-break-0
-                                
                                 <div ng-repeat="association in currentProject.associations">
                                     <a href ng-click="currentProject.removeAssociation($index)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
-                                    
                                     <div class="form-group">
-                                        <label for="model{{model.id}}-field{{$index}}-name" class="control-label col-md-1">Name:</label>
-                                        <div class="col-md-5">
-                                            <input id="model{{model.id}}-field{{$index}}-name" class="form-control" ng-model="field.name">
+                                        <div class="col-md-4">
+                                            <select id="association{{$index}}-source" class="form-control" ng-model="association.sourceModel" ng-options="model.name for model in currentProject.models"></select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select id="association{{$index}}-type" class="form-control" ng-model="association.associationType" ng-options="associationType.name for associationType in constants.associationTypes"></select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select id="association{{$index}}-destination" class="form-control" ng-model="association.targetModel" ng-options="model.name for model in currentProject.models"></select>
                                         </div>
                                     </div>
-                                    
-                                    
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="col-md-4">
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" id="association{{$index}}-foreignKey" value="foreignKey" ng-model="association.hasForeignKey"> Foreign Key
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-8" ng-if="association.hasForeignKey">
+                                                    <input id="association{{$index}}-foreignKeyValue" class="form-control" ng-model="association.foreignKey">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                             <div class="form-group">
+                                                <div class="col-md-3">
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" id="association{{$index}}-alias" value="alias" ng-model="association.hasAlias"> Alias
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-9" ng-if="association.hasAlias">
+                                                    <input id="association{{$index}}-aliasValue" class="form-control" ng-model="association.alias">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" ng-if="association.associationType.name == 'hasMany'">
+                                            <div class="form-group">
+                                                <div class="col-md-4">
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" id="association{{$index}}-through" value="through" ng-model="association.hasThrough"> Through
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-8" ng-if="association.hasThrough">
+                                                    <select id="association{{$index}}-throughValue" class="form-control" ng-model="association.through" ng-options="model.name for model in currentProject.models"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <hr ng-show="!$last" />
                                 </div>
                                 <div class="form-group">

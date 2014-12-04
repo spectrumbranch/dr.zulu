@@ -18,13 +18,13 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
 	
 	Model.constants = {};
 	Model.constants.dataTypes = [
-		{ name: "STRING", lengthField: true },
-		{ name: "INTEGER", lengthField: true, unsignable: true, zerofillable: true },
-		{ name: "BIGINT", lengthField: true, unsignable: true, zerofillable: true },
-		{ name: "FLOAT", lengthField: true, decimalLengthField: true, unsignable: true, zerofillable: true },
-		{ name: "DECIMAL", lengthField: true, decimalLengthField: true },
+		{ name: "STRING", lengthField: true, isText: true },
+		{ name: "INTEGER", lengthField: true, unsignable: true, zerofillable: true, isInt: true },
+		{ name: "BIGINT", lengthField: true, unsignable: true, zerofillable: true, isInt: true },
+		{ name: "FLOAT", lengthField: true, decimalLengthField: true, unsignable: true, zerofillable: true, isDecimal: true },
+		{ name: "DECIMAL", lengthField: true, decimalLengthField: true, isDecimal: true },
 		{ name: "DATE", isDate: true },
-		{ name: "BOOLEAN" },
+		{ name: "BOOLEAN", isBool: true },
 		{ name: "ENUM", isEnum: true }
 	];
 	

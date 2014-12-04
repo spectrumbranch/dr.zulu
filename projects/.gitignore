@@ -1,0 +1,3 @@
+# Don't commit anything in this folder, it is intended solely for generated output.
+*
+!.gitignore
