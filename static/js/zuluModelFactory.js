@@ -59,6 +59,7 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
         var output = {};
         
         output.name = this.name;
+        output.id = this.id;
         output.fields = [];
         
         for (var i = 0; i < this.fields.length; i++) {
