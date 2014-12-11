@@ -175,7 +175,11 @@
                             <h3 class="panel-title">
                                 <form class="form-inline" role="form">
                                     <label for="model{{model.id}}-name-edit">Model:</label> <span id="model{{model.id}}-name-view" ng-show="!model.editMode">{{model.name}}</span><input id="model{{model.id}}-name-edit" type="text" ng-model="model.name" ng-show="model.editMode" class="form-control input-sm">
-                                    <a href ng-click="model.toggleEditMode()"><span class="glyphicon glyphicon-pencil pull-right"></span></a>
+                                    <span class="pull-right">
+                                        <a href ng-click="model.toggleEditMode()"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        &nbsp;&nbsp;
+                                        <a href ng-click="currentProject.deleteModel($index)"><span class="glyphicon glyphicon-trash"></span></a>
+                                    </span>
                                 </form>
                             </h3>
                         </div>

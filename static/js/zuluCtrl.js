@@ -13,6 +13,10 @@ angular.module('zuluApp', ['zuluApp.model', 'zuluApp.association']).controller('
         var id = $scope.currentProject.models.length; //TODO temporary id situation
         $scope.currentProject.models.push(new Model({ name: 'NewModel' + id, id: id }));
     }
+    $scope.currentProject.deleteModel = function(index) {
+        $scope.currentProject.models.splice(index, 1);
+    }
+    
     $scope.currentProject.models = [];
     //TODO remove after development/testing. models should default to none
     $scope.currentProject.models.push(new Model({ name: 'Map', id: 0 }));
