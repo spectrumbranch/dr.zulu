@@ -1,4 +1,18 @@
-angular.module('zuluApp', ['zuluApp.model', 'zuluApp.association']).controller('ZuluController', ['$scope', 'Model', 'Association', function($scope, Model, Association) {
+angular.module("zuluApp", ['ngRoute', 'zuluApp.model', 'zuluApp.association']).config(['$routeProvider', function($routeProvider) {
+    $routeProvider.
+        when('/', {
+            templateUrl: 'project-editor.html',
+            controller: 'ZuluController'
+        }).
+        when('/projects', {
+            templateUrl: 'project-list.html',
+            controller: 'ZuluController'
+        }).
+        otherwise({
+            redirectTo: '/'
+        });
+}])
+.controller('ZuluController', ['$scope', 'Model', 'Association', function($scope, Model, Association) {
     //maybe rename or reorganize this variable
     $scope.constants = {};
     
