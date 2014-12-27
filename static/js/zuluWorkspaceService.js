@@ -6,42 +6,9 @@ angular.module('zuluApp.workspace', ['zuluApp.project', 'zuluApp.model', 'zuluAp
     this.current = null;
 
     this.createProject = function createProject() {
-        var newProject = {};
-        newProject.editModel = false;
-        
-        newProject.toggleEditMode = function() {
-            newProject.editMode = !newProject.editMode;
-        }
-        newProject.addNewModel = function() {
-            var id = newProject.models.length; //TODO temporary id situation
-            newProject.models.push(new Model({ name: 'NewModel' + id, id: id }));
-        }
-        newProject.deleteModel = function(index) {
-            newProject.models.splice(index, 1);
-        }
-        
-        newProject.models = [];
+        //TODO make input {} after development/testing. These things should get defaults        
+        var newProject = new Project({ name: 'Cartography', id: 0 });
 
-        newProject.associations = [];
-        
-        newProject.showAssociations = true;
-        newProject.toggleShowAssociations = function() {
-            newProject.showAssociations = !newProject.showAssociations;
-        }
-        newProject.removeAssociation = function(index) {
-            newProject.associations.splice(index, 1);
-        }
-        newProject.addNewAssociation = function() {
-            newProject.associations.push(new Association({ sourceModel: {}, targetModel: {}, associationType: {} }));
-        }
-        
-        
-        
-        
-        //TODO remove after development/testing. These things should get defaults
-        newProject.name = 'Cartography';
-        newProject.id = 0;
-        
         //TODO remove after development/testing. models should default to none
         newProject.models.push(new Model({ name: 'Map', id: 0 }));
         newProject.models.push(new Model({ name: 'Tile', id: 1 }));
