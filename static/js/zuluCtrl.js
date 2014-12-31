@@ -1,33 +1,29 @@
-angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace', 'zuluApp.project', 'zuluApp.model', 'zuluApp.association']).config(['$routeProvider', function($routeProvider) {
-    $routeProvider.
-        when('/', {
+angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvider', function($routeProvider) {
+    $routeProvider
+        .when('/', {
             templateUrl: 'project-editor.html',
             controller: 'ZuluController'
-        }).
-        when('/projects', {
+        })
+        .when('/projects', {
             templateUrl: 'project-list.html',
-            controller: 'ZuluController'
-        }).
-        otherwise({
+            controller: 'ZuluOpenProjectController'
+        })
+        .when('/projects/new', {
+            templateUrl: 'project-new.html',
+            controller: 'ZuluNewProjectController'
+        })
+        .otherwise({
             redirectTo: '/'
         });
 }])
-.controller('ZuluController', ['$scope', 'Workspace', 'Project', 'Model', 'Association', function($scope, Workspace, Project, Model, Association) {
-    //maybe rename or reorganize this variable
-
+.controller('ZuluController', ['$scope', 'Workspace', function($scope, Workspace) {
     $scope.constants = Workspace.constants;
     
-    //TODO: move everything project related into Project service.
     if (Workspace.current !== null) {
         $scope.currentProject = Workspace.current;
     } else {
         $scope.currentProject = Workspace.createProject();
-
-        //TODO should this line be moved to inside of Workspace.createProject()?
-        Workspace.current = $scope.currentProject;
     }
-
-    
     
     $scope.toJson = function() {
         var cleanProject = {};
@@ -43,4 +39,50 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace', 'zuluApp.project', 'z
         
         console.log(cleanProject);
     }
+}])
+.controller('ZuluOpenProjectController', ['$scope', '$http', 'Workspace', function($scope, $http, Workspace) {
+    //TODO: get list of projects
+    $scope.projectList = [];
+    
+    $scope.showLoadProject = false;
+    
+    $scope.getProjectList = function() {
+        $http({
+            method: 'GET',
+            url: '/projects'
+        })
+        .success(function(data, status) {
+            console.log('success');
+            console.log(data);
+            $scope.projectList = data.projects;
+        })
+        .error(function(data, status) {
+            console.log('error');
+            console.log(data);
+        });
+    };
+    
+    $scope.getProjectList();
+}])
+.controller('ZuluNewProjectController', ['$scope', '$http', '$location', 'Workspace', function($scope, $http, $location, Workspace) {
+    $scope.newProject = {};
+    $scope.newProject.name = '';
+    
+    $scope.createNewProject = function() {
+        $http({
+            method: 'POST',
+            url: '/projects',
+            data: { name: $scope.newProject.name }
+        })
+        .success(function(data, status) {
+            console.log('success');
+            console.log(data);
+            Workspace.createProject(data.project);
+            $location.path('/');
+        })
+        .error(function(data, status) {
+            console.log('error');
+            console.log(data);
+        });
+    };
 }]);

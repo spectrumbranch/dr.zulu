@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <label for="project-list-name">New Project</label>
+                        <a href="#/"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="newProject-name" class="control-label col-md-2">Name:</label>
+                            <div class="col-md-10">
+                                <input id="newProject-name" class="form-control" ng-model="newProject.name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-primary" ng-click="createNewProject()">
+                                        <span class="glyphicon glyphicon-plus"></span> Create Project
+                                    </button>
+                                    <a href="#/">
+                                        <button type="button" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-remove"></span> Cancel
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
