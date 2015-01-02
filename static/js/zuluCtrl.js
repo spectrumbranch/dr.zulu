@@ -22,9 +22,16 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
     if (Workspace.current !== null) {
         $scope.currentProject = Workspace.current;
     } else {
-        $scope.currentProject = Workspace.createProject();
+        Workspace.openDefaultProject(function(err, project) {
+            if (!err) {
+                $scope.currentProject = project;
+            } else {
+                //TODO do something
+            }
+        });
     }
     
+    //TODO: move this to project
     $scope.toJson = function() {
         var cleanProject = {};
         cleanProject.name = $scope.currentProject.name;
@@ -40,29 +47,15 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
         console.log(cleanProject);
     }
 }])
-.controller('ZuluOpenProjectController', ['$scope', '$http', 'Workspace', function($scope, $http, Workspace) {
-    //TODO: get list of projects
+.controller('ZuluOpenProjectController', ['$scope', 'Workspace', function($scope, Workspace) {
     $scope.projectList = [];
-    
     $scope.showLoadProject = false;
     
-    $scope.getProjectList = function() {
-        $http({
-            method: 'GET',
-            url: '/projects'
-        })
-        .success(function(data, status) {
-            console.log('success');
-            console.log(data);
+    Workspace.getProjectList(function(err, data) {
+        if (!err) {
             $scope.projectList = data.projects;
-        })
-        .error(function(data, status) {
-            console.log('error');
-            console.log(data);
-        });
-    };
-    
-    $scope.getProjectList();
+        }
+    });
 }])
 .controller('ZuluNewProjectController', ['$scope', '$http', '$location', 'Workspace', function($scope, $http, $location, Workspace) {
     $scope.newProject = {};

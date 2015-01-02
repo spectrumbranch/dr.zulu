@@ -1,9 +1,43 @@
-angular.module('zuluApp.workspace', ['zuluApp.project', 'zuluApp.model', 'zuluApp.association']).service('Workspace', ['Project', 'Model', 'Association', function ProjectService(Project, Model, Association){
+angular.module('zuluApp.workspace', ['zuluApp.project', 'zuluApp.model', 'zuluApp.association']).service('Workspace', ['$http', 'Project', 'Model', 'Association', function ProjectService($http, Project, Model, Association){
     this.constants = {};
     this.constants = angular.extend({}, this.constants, Model.constants);
     this.constants = angular.extend({}, this.constants, Association.constants);
     
     this.current = null;
+    
+    this.openDefaultProject = function openDefaultProject(cb) {
+        $http({
+            method: 'GET',
+            url: '/projects/default'
+        })
+        .success(function(data, status) {
+            console.log('success');
+            console.log(data);
+            cb(null, new Project(data.project));
+        })
+        .error(function(data, status) {
+            console.log('error');
+            console.log(data);
+            cb(new Error('Error while getting default project'), data);
+        });
+    };
+    
+    this.getProjectList = function(cb) {
+        $http({
+            method: 'GET',
+            url: '/projects'
+        })
+        .success(function(data, status) {
+            console.log('success');
+            console.log(data);
+            cb(null, data);
+        })
+        .error(function(data, status) {
+            console.log('error');
+            console.log(data);
+            cb(new Error('Error while getting project list'), data);
+        });
+    };
 
     this.createProject = function createProject(input) {
         var newProject = new Project(input);
