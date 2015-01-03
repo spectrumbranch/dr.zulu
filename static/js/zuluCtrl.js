@@ -49,7 +49,13 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
 }])
 .controller('ZuluOpenProjectController', ['$scope', 'Workspace', function($scope, Workspace) {
     $scope.projectList = [];
+    $scope.selectedProject = null;
     $scope.showLoadProject = false;
+    
+    $scope.selectProject = function(index) {
+        $scope.selectedProject = index;
+        $scope.showLoadProject = true;
+    };
     
     Workspace.getProjectList(function(err, data) {
         if (!err) {

@@ -20,7 +20,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="project in projectList">
+                                        <tr ng-repeat="project in projectList" ng-class="{ info: $index == selectedProject }" ng-click="selectProject($index)">
                                             <td>{{project.name}}</td>
                                             <td>{{project.id}}</td>
                                         </tr>
