@@ -19,6 +19,8 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
 .controller('ZuluController', ['$scope', 'Workspace', function($scope, Workspace) {
     $scope.constants = Workspace.constants;
     
+    console.log('current workspace:', Workspace.current);
+    
     if (Workspace.current !== null) {
         $scope.currentProject = Workspace.current;
     } else {
@@ -47,7 +49,7 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
         console.log(cleanProject);
     }
 }])
-.controller('ZuluOpenProjectController', ['$scope', 'Workspace', function($scope, Workspace) {
+.controller('ZuluOpenProjectController', ['$scope', '$location', 'Workspace', function($scope, $location, Workspace) {
     $scope.projectList = [];
     $scope.selectedProject = null;
     $scope.showLoadProject = false;
@@ -55,6 +57,14 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
     $scope.selectProject = function(index) {
         $scope.selectedProject = index;
         $scope.showLoadProject = true;
+    };
+    
+    $scope.loadProject = function() {
+        if ($scope.selectedProject != null) {
+            Workspace.loadProject($scope.projectList[$scope.selectedProject].id, function() {
+                $location.path('/');
+            });
+        }
     };
     
     Workspace.getProjectList(function(err, data) {
