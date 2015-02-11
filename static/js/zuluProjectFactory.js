@@ -12,8 +12,8 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
         this.showAssociations = true;
         
         //data fields
-        this.models = [];
-        this.associations = [];
+        this.models = input.models;
+        this.associations = input.associations;
     };
     
     Project.prototype.toggleEditMode = function() {

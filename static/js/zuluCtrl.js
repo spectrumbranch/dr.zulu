@@ -12,6 +12,10 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
             templateUrl: 'project-new.html',
             controller: 'ZuluNewProjectController'
         })
+        .when('/projects/save', {
+            templateUrl: 'project-editor.html',
+            controller: 'ZuluSaveProjectController'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -94,4 +98,26 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
             console.log(data);
         });
     };
+}])
+.controller('ZuluSaveProjectController', ['$scope', '$http', '$location', 'Workspace', function($scope, $http, $location, Workspace) {
+    if (Workspace.current === null) {
+        $location.path('/');
+    } else {
+        $scope.project = Workspace.current;
+        $http({
+            method: 'PUT',
+            url: '/projects/' + $scope.project.id,
+            data: $scope.project
+        })
+        .success(function(data, status) {
+            console.log('success');
+            console.log(data);
+            $location.path('/');
+        })
+        .error(function(data, status) {
+            console.log('error');
+            console.log(data);
+            $location.path('/');
+        });
+    }
 }]);

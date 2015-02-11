@@ -13,7 +13,8 @@ angular.module('zuluApp.workspace', ['zuluApp.project', 'zuluApp.model', 'zuluAp
         })
         .success(function(data, status) {
             console.log('successfully opened default project',data);
-            cb(null, new Project(data.project));
+            Workspace.current = new Project(data.project);
+            cb(null, Workspace.current);
         })
         .error(function(data, status) {
             console.log('error');
