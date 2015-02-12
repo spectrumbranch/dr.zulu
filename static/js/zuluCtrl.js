@@ -88,8 +88,7 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
             data: { name: $scope.newProject.name }
         })
         .success(function(data, status) {
-            console.log('success');
-            console.log(data);
+            console.log('created new project', data);
             Workspace.createProject(data.project);
             $location.path('/');
         })

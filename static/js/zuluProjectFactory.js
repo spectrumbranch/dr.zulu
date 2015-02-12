@@ -1,11 +1,6 @@
 angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).factory('Project', ['Model', 'Association', function ProjectFactory(Model, Association) {
     //Constructor
     var Project = function(input) {
-        if (input) {
-            this.name = input.name;
-            this.id = input.id;
-        }
-        
         //default fields
         //view status fields
         this.editMode = false;
@@ -13,13 +8,23 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
         
         //data fields
         this.models = [];
-        for (var i = 0; i < input.models.length; i++) {
-            this.models.push(new Model(input.models[i]));
-        }
-        
         this.associations = [];
-        for (var i = 0; i < input.associations.length; i++) {
-            this.associations.push(new Association(input.associations[i]));
+    
+        if (input) {
+            this.name = input.name;
+            this.id = input.id;
+            
+            if (input.models) {
+                for (var i = 0; i < input.models.length; i++) {
+                    this.addModel(input.models[i]);
+                }
+            }
+            
+            if (input.associations) {
+                for (var i = 0; i < input.associations.length; i++) {
+                    this.addAssociation(input.associations[i]);
+                }
+            }
         }
     };
     
@@ -29,6 +34,10 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
     
     
     //Model methods
+    Project.prototype.addModel = function(model) {
+        this.models.push(new Model(model));
+    }
+    
     Project.prototype.addNewModel = function() {
         var id = this.models.length; //TODO temporary id situation
         this.models.push(new Model({ name: 'NewModel' + id, id: id }));
@@ -38,6 +47,9 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
     }
     
     //Association methods
+    Project.prototype.addAssociation = function(association) {
+        this.associations.push(new Association(association));
+    }
     Project.prototype.toggleShowAssociations = function() {
         this.showAssociations = !this.showAssociations;
     }
