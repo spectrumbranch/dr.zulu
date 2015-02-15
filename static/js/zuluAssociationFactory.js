@@ -3,8 +3,8 @@ angular.module('zuluApp.association', ['zuluApp.model']).factory('Association', 
     var Association = function(input) {
         // //input fields
         
-        this.sourceModel = new Model(input.sourceModel);
-        this.targetModel = new Model(input.targetModel);
+        this.sourceModel = input.sourceModel;
+        this.targetModel = input.targetModel;
         this.associationType = input.associationType;
         
         //field defaults

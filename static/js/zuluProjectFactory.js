@@ -38,8 +38,19 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
         this.models.push(new Model(model));
     }
     
+    Project.prototype.getModelById = function(id) {
+        var model = null;
+        for (var i = 0; i < this.models.length; i++) {
+            if (this.models[i].id == id) {
+                model = this.models[i];
+                break;
+            }
+        }
+        return model;
+    }
+    
     Project.prototype.addNewModel = function() {
-        var id = this.models.length; //TODO temporary id situation
+        var id = this.models.length;
         this.models.push(new Model({ name: 'NewModel' + id, id: id }));
     }
     Project.prototype.deleteModel = function(index) {
@@ -48,8 +59,45 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
     
     //Association methods
     Project.prototype.addAssociation = function(association) {
+        //angular loads the view's ng-options elements by reference, so we need to refresh the references
+        if (association.sourceModel) {
+            var sourceModel = this.getModelById(association.sourceModel.id);
+            if (sourceModel != null) {
+                association.sourceModel = sourceModel;
+            } else {
+                console.log('sourceModel attempted to load but was not found');
+            }
+        }
+        if (association.targetModel) {
+            var targetModel = this.getModelById(association.targetModel.id);
+            if (targetModel != null) {
+                association.targetModel = targetModel;
+            } else {
+                console.log('targetModel attempted to load but was not found');
+            }
+        }
+        if (association.associationType) {
+            var associationType = this.getAssociationTypeById(association.associationType.id);
+            if (associationType != null) {
+                association.associationType = associationType;
+            } else {
+                console.log('associationType attempted to load but was not found');
+            }
+        }
         this.associations.push(new Association(association));
     }
+    
+    Project.prototype.getAssociationTypeById = function(id) {
+        var associationType = null;
+        for (var i = 0; i < Association.constants.associationTypes.length; i++) {
+            if (Association.constants.associationTypesw[i].id == id) {
+                associationType = Association.constants.associationTypes[i];
+                break;
+            }
+        }
+        return associationType;
+    }
+    
     Project.prototype.toggleShowAssociations = function() {
         this.showAssociations = !this.showAssociations;
     }
