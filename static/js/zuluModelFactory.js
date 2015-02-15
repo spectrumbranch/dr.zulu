@@ -12,8 +12,14 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
         //data fields
         this.fields = [];
         
-        //TODO remove
-        this.fields.push({ name: 'name', type: Model.constants.dataTypes[0], length: '10', allowNull: false });
+        if (input.fields) {
+            for (var i = 0; i < input.fields.length; i++) {
+                this.addField(input.fields[i]);
+            }
+        } else {
+            //create a default field?
+            this.fields.push({ name: 'name', type: Model.constants.dataTypes[0], length: '10', allowNull: false });
+        }
     };
     
     Model.constants = {};
@@ -46,6 +52,19 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
     Model.prototype.toggleActive = function() {
         this.active = !this.active;
     };
+    
+    Model.prototype.addField = function(field) {
+        //angular loads the view's ng-options elements by reference, so we need to refresh the references
+        if (field.type) {
+            var type = Model.constants.getDataTypeByObject(field.type);
+            if (type != null) {
+                field.type = type;
+            } else {
+                console.log('type attempted to load but was not found');
+            }
+        }
+        this.fields.push(field);
+    }
     
     Model.prototype.addNewField = function() {
         this.fields.push({ name: '', type: Model.constants.dataTypes[0], length: '' });
