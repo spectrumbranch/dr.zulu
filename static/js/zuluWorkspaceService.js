@@ -40,12 +40,8 @@ angular.module('zuluApp.workspace', ['zuluApp.project', 'zuluApp.model', 'zuluAp
     };
 
     Workspace.createProject = function createProject(input) {
-        var newProject = new Project(input);
-        //TODO make input {} after development/testing. These things should get defaults        
-        // var newProject = new Project({ name: 'Cartography', id: 0 });
-        
-        Workspace.current = newProject;
-        return newProject;
+        Workspace.current = new Project(input);
+        return Workspace.current;
     };
     
     

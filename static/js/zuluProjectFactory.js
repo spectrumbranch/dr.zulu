@@ -90,7 +90,7 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
     Project.prototype.getAssociationTypeById = function(id) {
         var associationType = null;
         for (var i = 0; i < Association.constants.associationTypes.length; i++) {
-            if (Association.constants.associationTypesw[i].id == id) {
+            if (Association.constants.associationTypes[i].id == id) {
                 associationType = Association.constants.associationTypes[i];
                 break;
             }
