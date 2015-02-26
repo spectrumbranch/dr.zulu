@@ -16,6 +16,10 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
             templateUrl: 'project-editor.html',
             controller: 'ZuluSaveProjectController'
         })
+        .when('/projects/generate', {
+            templateUrl: 'project-editor.html',
+            controller: 'ZuluGenerateProjectController'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -106,6 +110,28 @@ angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvi
         $http({
             method: 'PUT',
             url: '/projects/' + $scope.project.id,
+            data: $scope.project
+        })
+        .success(function(data, status) {
+            console.log('success');
+            console.log(data);
+            $location.path('/');
+        })
+        .error(function(data, status) {
+            console.log('error');
+            console.log(data);
+            $location.path('/');
+        });
+    }
+}])
+.controller('ZuluGenerateProjectController', ['$scope', '$http', '$location', 'Workspace', function($scope, $http, $location, Workspace) {
+    if (Workspace.current === null) {
+        $location.path('/');
+    } else {
+        $scope.project = Workspace.current;
+        $http({
+            method: 'POST',
+            url: '/projects/' + $scope.project.id + '/generate',
             data: $scope.project
         })
         .success(function(data, status) {
