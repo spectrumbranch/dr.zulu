@@ -4,7 +4,7 @@
   "description": "Scaffolding utility for sequelize projects.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha --ui tdd --reporter list"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,9 @@
     "node-uuid": "^1.4.1",
     "lockfile": "^1.0.0",
     "mkdirp": "^0.5.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0",
+    "hoek": "^2.11.1"
   }
 }
