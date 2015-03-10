@@ -1,6 +1,4 @@
 {  
-    "editMode":false,
-    "showAssociations":true,
     "models":[  
         {  
             "name":"Tile",

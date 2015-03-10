@@ -1,0 +1,10 @@
+module.exports = function(sequelize, DataTypes) {
+    var Tile = sequelize.define("Tile", {
+        name: {
+            type: DataTypes.STRING(10)
+        }
+    }, {
+        freezeTableName: true
+    });
+    return Tile;
+};

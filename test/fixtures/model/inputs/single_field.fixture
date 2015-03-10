@@ -1,0 +1,26 @@
+{  
+    "models":[  
+        {  
+            "name":"Tile",
+            "id":0,
+            "editMode":false,
+            "active":false,
+            "fields":[  
+                {  
+                    "name":"name",
+                    "type":{  
+                        "name":"STRING",
+                        "lengthField":true,
+                        "isText":true
+                    },
+                    "length":"10",
+                    "allowNull":false,
+                    "hasDefaultValue":false
+                }
+            ]
+        }
+    ],
+    "associations":[],
+    "name":"Cartography",
+    "id":"7264006e-1a9d-4754-be93-8e02c1cf7832"
+}
