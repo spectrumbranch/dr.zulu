@@ -8,15 +8,26 @@ angular.module('zuluApp.association', ['zuluApp.model']).factory('Association', 
         this.associationType = input.associationType;
         
         //field defaults
-        this.hasForeignKey = false;
-        this.foreignKey = "";
         
-        this.hasAlias = false;
-        this.alias = "";
-        
+        if (typeof input.foreignKey != undefined) {
+            this.foreignKey = input.foreignKey;
+        } else {            
+            this.foreignKey = "";
+        }                
+        this.hasForeignKey = !!input.hasForeignKey;
+
+        if (typeof input.alias != undefined) {
+            this.alias = input.alias;
+        } else {
+            this.alias = "";
+        }
+        this.hasAlias = !!input.hasAlias;
+             
         this.hasThrough = false;
         this.through = "";
+
     };
+
     
     Association.constants = {};
     Association.constants.associationTypes = [
