@@ -18,8 +18,7 @@ server.views({
     engines: {
         html: require('handlebars')
     },
-    path: './lib/views',
-    partialsPath: './lib/views/partials'
+    path: './lib/views'
 });
 
 server.pack.register(require('hapi-auth-cookie'), function (err) {
