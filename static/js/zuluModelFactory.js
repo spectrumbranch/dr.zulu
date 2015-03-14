@@ -70,7 +70,8 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
         this.fields.push({ name: '', type: Model.constants.dataTypes[0], length: '' });
     };
     
-    Model.prototype.removeField = function(index) {
+    Model.prototype.removeField = function(field) {
+        var index = this.fields.indexOf(field);
         this.fields.splice(index, 1);
     };
     

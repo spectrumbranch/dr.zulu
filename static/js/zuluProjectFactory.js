@@ -53,10 +53,14 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
         var id = this.models.length;
         this.models.push(new Model({ name: 'NewModel' + id, id: id }));
     }
-    Project.prototype.deleteModel = function(index) {
+
+
+    Project.prototype.deleteModel = function(model) {
+        var index = this.models.indexOf(model);
         this.models.splice(index, 1);
     }
-    
+
+
     //Association methods
     Project.prototype.addAssociation = function(association) {
         //angular loads the view's ng-options elements by reference, so we need to refresh the references
@@ -101,9 +105,13 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
     Project.prototype.toggleShowAssociations = function() {
         this.showAssociations = !this.showAssociations;
     }
-    Project.prototype.removeAssociation = function(index) {
+
+
+    Project.prototype.removeAssociation = function(association) {
+        var index = this.associations.indexOf(association);
         this.associations.splice(index, 1);
     }
+
     Project.prototype.addNewAssociation = function() {
         this.associations.push(new Association({ sourceModel: {}, targetModel: {}, associationType: {} }));
     }
