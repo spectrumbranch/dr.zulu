@@ -166,7 +166,11 @@
                                 </div>
                                 <div class="col-md-3" ng-if="field.hasDefaultValue">
                                     <label for="model{{model.id}}-field{{$index}}-defaultValue" class="sr-only">Default Value:</label>
-                                      <input id="model{{model.id}}-field{{$index}}-defaultValue" class="form-control" placeholder="default value" ng-model="field.defaultValue">
+                                      <input ng-if="!constants.getDataTypeByObject(field.type).isBool" id="model{{model.id}}-field{{$index}}-defaultValue" class="form-control" placeholder="default value" ng-model="field.defaultValue">
+                                      <div class="btn-group btn-group-justified" ng-if="constants.getDataTypeByObject(field.type).isBool">
+                                        <label id="model{{model.id}}-field{{$index}}-defaultValue" class="col-md-6 btn btn-primary" ng-model="field.defaultValue" btn-radio="true">true</label>
+                                        <label id="model{{model.id}}-field{{$index}}-defaultValue" class="col-md-6 btn btn-primary" ng-model="field.defaultValue" btn-radio="false">false</label>
+                                      </div>
                                     </label>
                                 </div>
                             </div>
