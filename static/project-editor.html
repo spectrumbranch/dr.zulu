@@ -166,7 +166,23 @@
                                 </div>
                                 <div class="col-md-3" ng-if="field.hasDefaultValue">
                                     <label for="model{{model.id}}-field{{$index}}-defaultValue" class="sr-only">Default Value:</label>
-                                      <input id="model{{model.id}}-field{{$index}}-defaultValue" class="form-control" placeholder="default value" ng-model="field.defaultValue">
+                                        <input ng-if="!constants.getDataTypeByObject(field.type).custom" id="model{{model.id}}-field{{$index}}-defaultValue" class="form-control" placeholder="default value" ng-model="field.defaultValue">
+                                        <div ng-if="constants.getDataTypeByObject(field.type).custom">
+                                            <div class="btn-group btn-group-justified" ng-if="constants.getDataTypeByObject(field.type).isBool">
+                                                <label id="model{{model.id}}-field{{$index}}-defaultValue" class="col-md-6 btn btn-primary" ng-model="field.defaultValue" btn-radio="true">true</label>
+                                                <label id="model{{model.id}}-field{{$index}}-defaultValue" class="col-md-6 btn btn-primary" ng-model="field.defaultValue" btn-radio="false">false</label>
+                                            </div>
+                                            <div class="row" ng-if="constants.getDataTypeByObject(field.type).isDate">
+                                                <div class="col-md-12">
+                                                    <p class="input-group">
+                                                        <input type="text" class="form-control" id="model{{model.id}}-field{{$index}}-defaultValue" datepicker-popup="{{constants.date.format}}" ng-model="field.defaultValue" is-open="field.opened" min-date="field.minDate" max-date="'2034-12-31'" datepicker-options="constants.date.dateOptions" date-disabled="field.disabled(date, mode)" ng-required="true" close-text="Close" />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default" ng-click="field.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </label>
                                 </div>
                             </div>

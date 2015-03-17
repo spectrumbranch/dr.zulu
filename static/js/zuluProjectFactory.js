@@ -88,6 +88,14 @@ angular.module('zuluApp.project', ['zuluApp.model', 'zuluApp.association']).fact
                 console.log('associationType attempted to load but was not found');
             }
         }
+        if (association.through) {
+            var through = this.getModelById(association.through.id);
+            if (through != null) {
+                association.through = through;
+            } else {
+                console.log('through attempted to load but was not found');
+            }
+        }
         this.associations.push(new Association(association));
     }
     

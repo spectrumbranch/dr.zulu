@@ -1,4 +1,4 @@
-angular.module('zuluApp', ['ngRoute', 'zuluApp.workspace']).config(['$routeProvider', function($routeProvider) {
+angular.module('zuluApp', ['ngRoute', 'ui.bootstrap', 'zuluApp.workspace']).config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'project-editor.html',

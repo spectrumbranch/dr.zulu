@@ -22,9 +22,13 @@ angular.module('zuluApp.association', ['zuluApp.model']).factory('Association', 
             this.alias = "";
         }
         this.hasAlias = !!input.hasAlias;
-             
-        this.hasThrough = false;
-        this.through = "";
+        
+        if (typeof input.through != undefined) {
+            this.through = input.through;
+        } else {
+            this.through = "";
+        }
+        this.hasThrough = !!input.hasThrough;
 
     };
 

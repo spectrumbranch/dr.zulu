@@ -1,4 +1,4 @@
-angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
+angular.module('zuluApp.model', ['zuluApp.field']).factory('Model', ['Field', function ModelFactory(Field) {
     //Constructor
     var Model = function(input) {
         //input fields
@@ -17,33 +17,13 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
                 this.addField(input.fields[i]);
             }
         } else {
-            //create a default field?
-            this.fields.push({ name: 'name', type: Model.constants.dataTypes[0], length: '10', allowNull: false });
+            //create a default field
+            this.addNewField();
         }
     };
     
     Model.constants = {};
-    Model.constants.dataTypes = [
-        { name: "STRING", lengthField: true, isText: true },
-        { name: "INTEGER", lengthField: true, unsignable: true, zerofillable: true, isInt: true },
-        { name: "BIGINT", lengthField: true, unsignable: true, zerofillable: true, isInt: true },
-        { name: "FLOAT", lengthField: true, decimalLengthField: true, unsignable: true, zerofillable: true, isDecimal: true },
-        { name: "DECIMAL", lengthField: true, decimalLengthField: true, isDecimal: true },
-        { name: "DATE", isDate: true },
-        { name: "BOOLEAN", isBool: true },
-        { name: "ENUM", isEnum: true }
-    ];
-    
-    Model.constants.getDataTypeByObject = function(input) {
-        var output = {};
-        for (var i = 0; i < Model.constants.dataTypes.length; i++) {
-            if (input.name == Model.constants.dataTypes[i].name) {
-                output = Model.constants.dataTypes[i];
-                break;
-            }
-        }
-        return output;
-    };
+    Model.constants = Field.constants;
     
     Model.prototype.toggleEditMode = function() {
         this.editMode = !this.editMode;
@@ -56,18 +36,19 @@ angular.module('zuluApp.model', []).factory('Model', [function ModelFactory() {
     Model.prototype.addField = function(field) {
         //angular loads the view's ng-options elements by reference, so we need to refresh the references
         if (field.type) {
-            var type = Model.constants.getDataTypeByObject(field.type);
+            var type = Field.constants.getDataTypeByObject(field.type);
             if (type != null) {
                 field.type = type;
             } else {
                 console.log('type attempted to load but was not found');
             }
         }
-        this.fields.push(field);
+        this.fields.push(new Field(field));
     }
     
+    //adds default values to a field
     Model.prototype.addNewField = function() {
-        this.fields.push({ name: '', type: Model.constants.dataTypes[0], length: '' });
+        this.addField({ name: '', type: Model.constants.dataTypes[0], length: '' });
     };
     
     Model.prototype.removeField = function(field) {
