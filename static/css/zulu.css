@@ -19,3 +19,7 @@
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
 	border-color: rgb(221, 221, 221);
 }
+
+body{
+overflow-y: scroll;
+}
