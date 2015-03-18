@@ -27,6 +27,14 @@ angular.module('zuluApp.field', []).factory('Field', [function FieldFactory() {
         { name: "BOOLEAN", isBool: true, custom: true },
         { name: "ENUM", isEnum: true, custom: true }
     ];
+
+
+    Field.prototype.changeType = function() {
+
+        this.defaultValue='';
+    }
+
+
     
     Field.constants.date = {
         dateOptions: {

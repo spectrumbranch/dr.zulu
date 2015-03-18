@@ -136,7 +136,7 @@
                             <div class="form-group">
                                 <label for="model{{model.id}}-field{{$index}}-type" class="control-label col-md-1">Type:</label>
                                 <div class="col-md-5">
-                                    <select id="model{{model.id}}-field{{$index}}-type" class="form-control" ng-model="field.type" ng-options="dataType.name for dataType in constants.dataTypes"></select>
+                                    <select id="model{{model.id}}-field{{$index}}-type" class="form-control" ng-model="field.type" ng-options="dataType.name for dataType in constants.dataTypes" ng-change="field.changeType()"></select>
                                 </div>
                                 <div ng-if="constants.getDataTypeByObject(field.type).lengthField">
                                     <label for="model{{model.id}}-field{{$index}}-length" class="control-label col-md-1">Length:</label>
