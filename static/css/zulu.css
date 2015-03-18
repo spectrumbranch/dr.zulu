@@ -24,6 +24,7 @@ body{
 overflow-y: scroll;
 }
 
-.glyphicon {
+.x-button {
 margin-bottom: 1rem;
+text-align: right;
 }
