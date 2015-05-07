@@ -1,0 +1,53 @@
+var SingleCRUD;
+var internals = {};
+
+internals.data = require('./models');
+
+var Widget = {};
+
+Widget.create = function(input, callback) {
+    internals.data.Widget.create(input).success(function(newWidget) {
+        callback(null, newWidget);
+    });
+};
+
+Widget.update = function(input, callback) {
+    var errorMessages = [];
+    //test existence of required fields
+    if (!input.id) {
+        errorMessages.push('Widget.get: Object field "id" is required.');
+    }
+    
+    if (errorMessages.length > 0) {
+        callback(new Error(errorMessages));
+    } else {
+        internals.data.Widget.find({ where: { id: input.id } }).success(function(widget) {
+            var _input = input;
+            delete _input.id;
+            widget.updateAttributes(input).success(function(output) {
+                callback(null, output);
+            })
+        });
+    }
+};
+
+Widget.getById = function(id, callback) {
+    var errorMessages = [];
+    //test existence of required fields
+    if (!id) {
+        errorMessages.push('Widget.get: Object field "id" is required.');
+    }
+
+    if (errorMessages.length > 0) {
+        callback(new Error(errorMessages));
+    } else {
+        internals.data.Widget.find({ where: { id: input.id } )}).success(function(output) {
+            callback(null, output);
+        })
+    }
+};
+
+module.exports = function(singlecrud) {
+    SingleCRUD = singlecrud;
+    return Widget;
+};

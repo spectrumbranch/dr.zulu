@@ -1,0 +1,13 @@
+var ModeratelyComplex = {};
+module.exports = ModeratelyComplex;
+
+ModeratelyComplex.Hapi = require('hapi');
+ModeratelyComplex.Joi = require('joi');
+ModeratelyComplex.Async = require('async');
+
+ModeratelyComplex.User = require('./user');
+ModeratelyComplex.List = require('./list');
+ModeratelyComplex.Task = require('./task');
+ModeratelyComplex.SharedList = require('./sharedlist');
+
+ModeratelyComplex.Routes = require('./routes');

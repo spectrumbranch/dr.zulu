@@ -1,38 +1,13 @@
 var fs = require('fs')
   , async = require('async')
-  , path = require('path')
-  , colors = require('colors')
-  , jsdiff = require('diff');;
+  , path = require('path');
 
 var fixtures = {};
 fixtures.generator = {};
+fixtures.util = require('./util');
 
 
 
-fixtures.util = {};
-
-
-fixtures.util.displayDiff = function(first, second) {
-    console.log();
-    var diff = jsdiff.diffChars(first, second);
-
-    diff.forEach(function(part){
-        // green for additions, red for deletions
-        // grey for common parts
-        var color = part.added ? 'green' :
-            part.removed ? 'red' : 'grey';
-        
-        var output;
-        if (part.value == '\n') {
-            output = '\\n\n'[color];
-        } else {
-            output = part.value[color];
-        }
-        process.stderr.write(output);
-    });
-
-    console.log();
-}
 
 fixtures.generator.initGenerator = function(name, cb) {
     fs.readdir(path.resolve(__dirname, './' + name), function(err, files) {
@@ -63,6 +38,18 @@ fixtures.generator.initModelIndex = function(cb) {
 
 fixtures.generator.initModel = function(cb) {
     fixtures.generator.initGenerator('model', function(err, fixtures) {
+        cb(err, fixtures);
+    });
+};
+
+fixtures.generator.initLibraryIndex = function(cb) {
+    fixtures.generator.initGenerator('library_index', function(err, fixtures) {
+        cb(err, fixtures);
+    });
+};
+
+fixtures.generator.initLibraryModule = function(cb) {
+    fixtures.generator.initGenerator('library_module', function(err, fixtures) {
         cb(err, fixtures);
     });
 };
